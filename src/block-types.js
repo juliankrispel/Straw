@@ -1,3 +1,13 @@
+var p = require('path');
+
+var mapConfigToObject = function(configArr){
+    var config = {};
+    configArr.forEach(function(option){
+        config[option.ref] = option.value;
+    });
+    return config;
+};
+
 var hasBlock = function(blocks, obj){
     var ar = blocks.filter(function(block){
         var containsObject = true;
@@ -16,6 +26,7 @@ var hasBlock = function(blocks, obj){
 }
 
 module.exports = [
+
     {
         ref: 'watch',
         package: 'gulp-watch',
@@ -24,17 +35,38 @@ module.exports = [
         description: 'Create a stream from watching files',
         config: [
             {
-                name: 'Watch Glob',
-                ref: 'glob',
-                type: 'textInput',
+                name: 'Folder',
+                ref: 'watchDir',
+                type: 'directory',
                 value: '',
+                description: 'The Folder that that will be watched',
+                required: true
+            },
+            {
+                name: 'File Type',
+                ref: 'glob',
+                type: 'select',
+                description: 'Choose the filetype that you want to watch',
+                options: [
+                    {name: 'All Files', value: '**/*'},
+                    {name: '.css', value: '**/*.css'},
+                    {name: '.scss', value: '**/*.scss'},
+                    {name: '.sass', value: '**/*.sass'},
+                    {name: '.js', value: '**/*.js'},
+                    {name: '.coffee', value: '**/*.coffee'}
+                ],
+                value: '**/*',
                 required: true
             }
         ],
+        getConfigArguments: function(){
+            return [p.join(this.config[0].value, this.config[1].value)];
+        },
         validate: function(task){
             return !hasBlock(task.blocks, {type: 'readable-stream'});
         }
     },
+
     {
         ref: 'src',
         package: null,
@@ -43,17 +75,38 @@ module.exports = [
         description: 'Create a stream from one or more files',
         config: [
             {
-                name: 'Source Glob',
+                name: 'Folder',
+                ref: 'watchDir',
+                type: 'directory',
+                value: '',
+                description: 'The Folder that that will be watched',
+                required: true
+            },
+            {
+                name: 'File Type',
                 ref: 'glob',
-                type: 'textInput',
+                type: 'select',
+                description: 'Choose the filetype that you want to watch',
+                options: [
+                    {name: 'All Files', value: '**/*'},
+                    {name: '.css', value: '**/*.css'},
+                    {name: '.scss', value: '**/*.scss'},
+                    {name: '.sass', value: '**/*.sass'},
+                    {name: '.js', value: '**/*.js'},
+                    {name: '.coffee', value: '**/*.coffee'}
+                ],
                 value: '',
                 required: true
             }
         ],
+        getConfigArguments: function(){
+            return [p.join(this.config[0].value, this.config[1].value)];
+        },
         validate: function(task){
             return !hasBlock(task.blocks, {type: 'readable-stream'});
         }
     },
+
     {
         ref: 'dest',
         package: null,
@@ -62,17 +115,21 @@ module.exports = [
         description: 'Write stream to directory',
         config: [
             {
-                name: 'Path',
-                ref: 'path',
-                type: 'textInput',
+                name: 'Folder',
+                ref: 'destFolder',
+                type: 'directory',
                 value: '',
                 required: true
             }
         ],
+        getConfigArguments: function(){
+            return [this.config[0].value];
+        },
         validate: function(task){
             return hasBlock(task.blocks, {type: 'readable-stream'});
         }
     },
+
     {
         ref: 'concat',
         package: 'gulp-concat',
@@ -85,14 +142,21 @@ module.exports = [
                 ref: 'filename',
                 type: 'textInput',
                 value: '',
+                validate: function(val){
+                    return val && val.trim().length > 0;
+                },
                 required: true
             }
         ],
+        getConfigArguments: function(){
+            return [this.config[0].value];
+        },
         validate: function(task){
             return !hasBlock(task.blocks, {ref: 'concat'}) && 
                 hasBlock(task.blocks, {type: 'readable-stream'});
         }
     },
+
     {
         ref: 'less',
         package: 'gulp-less',
@@ -109,7 +173,6 @@ module.exports = [
                     {name: 'No', value: false}
                 ],
                 value: false,
-                required: false
             },
             {
                 name: 'Environment',
@@ -120,15 +183,18 @@ module.exports = [
                     {name: 'Production', value: 'production'}
                 ],
                 value: 'development',
-                required: false,
             },
         ],
+        getConfigArguments: function(){
+            return [mapConfigToObject(this.config)];
+        },
         validate: function(task){
             return !hasBlock(task.blocks, 'less') &&
                 hasBlock(task.blocks, {type: 'readable-stream'});
         }
 
     },
+
     {
         ref: 'coffee',
         package: 'gulp-coffee',
@@ -148,6 +214,9 @@ module.exports = [
                 required: false
             }
         ],
+        getConfigArguments: function(){
+            return [mapConfigToObject(this.config)];
+        },
         validate: function(task){
             return !hasBlock(task.blocks, 'coffee') &&
                 hasBlock(task.blocks, {type: 'readable-stream'});

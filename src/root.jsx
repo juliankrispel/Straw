@@ -1,5 +1,5 @@
-var React = require('react');
-var Tasks = require('./tasks.jsx');
+var React = require('react/addons');
+var Tasks = require('./tasks');
 
 React.render(
     <Tasks></Tasks>,

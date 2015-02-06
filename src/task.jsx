@@ -1,6 +1,7 @@
-var React = require('react');
-var Block = require('./block.jsx');
-var SelectBlock = require('./select-block.jsx');
+var React = require('react/addons');
+var Block = require('./block');
+var SelectBlock = require('./select-block');
+var ToggleTask = require('./toggle-task');
 
 var Task = React.createClass({
     handleTaskChanged: function(){
@@ -9,7 +10,6 @@ var Task = React.createClass({
         }
     },
     handleBlockAdded: function(blockData){ 
-        console.log('block added');
         var taskData = this.props.data;
         taskData.blocks.push(blockData);
         this.handleTaskChanged(taskData);
@@ -39,9 +39,12 @@ var Task = React.createClass({
     },
     render: function(){
         return (
-            <div>
+            <div className="task text-left">
                 {this.renderBlocks()}
-                <SelectBlock task={this.props.data} onSelect={this.handleBlockAdded}>+ Add Block</SelectBlock>
+                <div className="row">
+                    <div className="c2in4"><SelectBlock task={this.props.data} onSelect={this.handleBlockAdded.bind(this)}></SelectBlock></div>
+                    <div className="c2in4"><ToggleTask task={this.props.data}></ToggleTask></div>
+                </div>
             </div>
         );
     }

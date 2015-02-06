@@ -1,5 +1,6 @@
-var React = require('react');
+var React = require('react/addons');
 var blockTypes = require('./block-types.js');
+window.React = React;
 
 var SelectBlock = React.createClass({
     getInitialState: function(){
@@ -15,11 +16,18 @@ var SelectBlock = React.createClass({
         }
     },
     toggle: function(){
-        this.setState({active: !this.state.active});
+        this.setState(
+            {active: !this.state.active}
+        );
     },
     renderBlockOptions: function(){
+        var classes = React.addons.classSet({
+            'select-block': true,
+            'active': this.state.active
+        });
+
         var _this = this;
-        return <div className="select-block">
+        return <div className={classes}>
             {this.state.blockTypes.map(function(type){
                 return <button 
                     disabled={!type.validate(_this.props.task)} 
@@ -27,13 +35,13 @@ var SelectBlock = React.createClass({
                     {type.name}
                 </button>;
             })}
-            </div>
+            </div>;
     },
     render: function(){
         if(this.state.active){
             return this.renderBlockOptions();
         }else{
-            return <button onClick={this.toggle}>+</button>;
+            return <button onClick={this.toggle.bind(this)} className="btn-large">+</button>;
         }
     }
 });

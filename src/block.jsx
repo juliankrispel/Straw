@@ -1,5 +1,5 @@
-var React = require('react');
-var BlockOption = require('./block-option.jsx');
+var React = require('react/addons');
+var BlockOption = require('./block-option');
 
 var Block = React.createClass({
     handleBlockChanged: function(){
@@ -26,9 +26,11 @@ var Block = React.createClass({
         }
     },
     render: function(){
-        return <div>
-            <h2>{this.props.data.name}</h2>
-            <button onClick={this.handleBlockRemove}>Remove</button>
+        return <div className="block">
+            <div className="row m-b--l cf">
+                <h3 className="left">{this.props.data.name}</h3>
+                <button className="right remove-block" onClick={this.handleBlockRemove}>&times;</button>
+            </div>
             {this.renderBlockConfig()}
         </div>;
     }
