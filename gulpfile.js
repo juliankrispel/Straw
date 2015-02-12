@@ -35,6 +35,10 @@ gulp.task('compileJs', function () {
     return compileJsx(gulp.src('src/root.jsx'));
 });
 
+gulp.task('compileStylus', function(){
+    return compileStylus(gulp.src('stylus/main.styl'));
+});
+
 gulp.task('server', function(){
     return connect.server({port: 8484, livereload: true});
 });
@@ -75,3 +79,5 @@ gulp.task('runAtom', ['downloadatomshell'], function(){
 });
 
 gulp.task('default', ['runAtom', 'clean', 'watchStylus', 'watchJs']);
+
+gulp.task('build', ['clean', 'compileStylus', 'compileJs']);
