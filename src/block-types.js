@@ -26,7 +26,6 @@ var hasBlock = function(blocks, obj){
 }
 
 module.exports = [
-
     {
         ref: 'watch',
         package: 'gulp-watch',
@@ -40,7 +39,6 @@ module.exports = [
                 type: 'directory',
                 value: '',
                 description: 'The Folder that that will be watched',
-                required: true
             },
             {
                 name: 'File Type',
@@ -55,8 +53,7 @@ module.exports = [
                     {name: '.js', value: '**/*.js'},
                     {name: '.coffee', value: '**/*.coffee'}
                 ],
-                value: '**/*',
-                required: true
+                value: '**/*'
             }
         ],
         getConfigArguments: function(){
@@ -80,7 +77,6 @@ module.exports = [
                 type: 'directory',
                 value: '',
                 description: 'The Folder that that will be watched',
-                required: true
             },
             {
                 name: 'File Type',
@@ -96,7 +92,6 @@ module.exports = [
                     {name: '.coffee', value: '**/*.coffee'}
                 ],
                 value: '',
-                required: true
             }
         ],
         getConfigArguments: function(){
@@ -119,7 +114,6 @@ module.exports = [
                 ref: 'destFolder',
                 type: 'directory',
                 value: '',
-                required: true
             }
         ],
         getConfigArguments: function(){
@@ -145,7 +139,6 @@ module.exports = [
                 validate: function(val){
                     return val && val.trim().length > 0;
                 },
-                required: true
             }
         ],
         getConfigArguments: function(){
@@ -172,7 +165,7 @@ module.exports = [
                     {name: 'Yes', value: true}, 
                     {name: 'No', value: false}
                 ],
-                value: false,
+                value: false
             },
             {
                 name: 'Environment',
@@ -211,7 +204,6 @@ module.exports = [
                     {name: 'No', value: false}
                 ],
                 value: false,
-                required: false
             }
         ],
         getConfigArguments: function(){
