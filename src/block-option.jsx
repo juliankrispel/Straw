@@ -41,7 +41,9 @@ var BlockOption = React.createClass({
         var _this = this;
         e.target.blur();
         dialog.showOpenDialog({title: 'Pick folder', properties: ['openDirectory']}, function(paths){
-            _this.handleOptionChange(paths[0]);
+            if(paths && paths.length > 0){
+                _this.handleOptionChange(paths[0]);
+            }
         });    
     },
     renderDirectoryInput: function(){

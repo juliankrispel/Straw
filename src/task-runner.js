@@ -10,8 +10,6 @@ var buildTaskRecursively = function(stream, blocks){
         return stream
     }else{
         nextBlock = blocks.shift();
-        console.log(nextBlock);
-        console.log(nextBlock.package);
 
         if(nextBlock.package){
             plugin = require(nextBlock.package);
@@ -24,6 +22,24 @@ var buildTaskRecursively = function(stream, blocks){
             stream.pipe(plugin.apply(plugin, pluginArgs)), 
             blocks);
     }
+};
+
+var BlockStream = function(stream, srcStream){
+    this.srcStream = srcStream;
+    this.stream = stream;
+};
+
+BlockStream.prototype.end = function(){
+    if(this.srcStream.close){
+        this.srcStream.close();
+    }
+    if(this.srcStream.end){
+        this.srcStream.end();
+    }
+};
+
+BlockStream.prototype.on = function(type, fn){
+    this.srcStream.on(type, fn);
 };
 
 module.exports = {
@@ -42,6 +58,7 @@ module.exports = {
         }
         var streamArguments = firstBlock.getConfigArguments();
 
-        return buildTaskRecursively(streamFunction.apply(this, streamArguments), blocks);
+        var srcStream = streamFunction.apply(this, streamArguments);
+        return new BlockStream(buildTaskRecursively(srcStream, blocks), srcStream);
     }
 };
