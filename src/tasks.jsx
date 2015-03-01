@@ -33,6 +33,11 @@ var Tasks = React.createClass({
         }
     },
 
+    addTask: function(){
+        this.state.tasks.push({blocks: []});
+        this.setState(this.state);
+    },
+
     handleTaskChanged: function(index, task){
         this.state.tasks[index] = task;
         this.forceUpdate();
@@ -41,12 +46,17 @@ var Tasks = React.createClass({
 
     render: function(){
         var _this = this;
-        return <div>{
-            this.state.tasks.map(function(taskData, i){
-                return <Task 
-                    onTaskChanged={_this.handleTaskChanged.bind(_this, i)}
-                    data={taskData}></Task>
-            })}
+        return <div>
+            <div className="left">
+            {this.state.tasks.map(function(taskData, i){
+                    return <Task 
+                        onTaskChanged={_this.handleTaskChanged.bind(_this, i)}
+                        data={taskData}></Task>
+                })}
+            </div>
+            <div className="left">
+                <button onClick={this.addTask.bind(this)} className="btn-large">+</button>
+            </div>
         </div>;
     }
 

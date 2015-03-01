@@ -42,7 +42,9 @@ var Task = React.createClass({
             <div className="task text-left">
                 {this.renderBlocks()}
                 <div className="row">
-                    <div className="c2in4"><SelectBlock task={this.props.data} onSelect={this.handleBlockAdded.bind(this)}></SelectBlock></div>
+                    <div className="c2in4">
+                        <SelectBlock task={this.props.data} onSelect={this.handleBlockAdded.bind(this)}></SelectBlock>
+                    </div>
                     <div className="c2in4"><ToggleTask task={this.props.data}></ToggleTask></div>
                 </div>
             </div>
