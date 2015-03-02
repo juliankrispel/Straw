@@ -1,18 +1,22 @@
 @import "../node_modules/stylus-components/*.styl"
 
+*{ 
+    outline: none; 
+}
 
 body{
     line-height: 1.5em;
 }
 
 input[type="text"], select{
-    line-height: inherit;
     border: none;
     border: 1px solid #ccc;
     display: block;
     width: 100%;
-    //padding: .4em;
+    line-height: 1em;
+    padding: .4em;
 }
+
 select{
     padding: .41em;
 }
@@ -51,10 +55,12 @@ body{
     display: block;
     padding: .5em .8em;
     border: none;
+    border: 1px solid #ccc;
 }
 
 .select-block{
-    background: rgba(255, 255, 255, 0.5);
+    white-space: normal;
+    background: rgba(0, 0, 0, 0.3);
     &.active{
         position: fixed;
         top: 0;
@@ -64,18 +70,45 @@ body{
         padding: 3em;
     }
     button{
-        font-size: 1.1em;
+        text-transform: uppercase;
+        font-size: 1.4em;
         background: #fff;
-        width: calc(100%/3 - 4px);
-        margin: 2px;
+        transition: 300ms;
+        height: calc(100%/3 - 1em);
+        width: calc(100%/3 - 1em);
+        margin: .5em;
         border: none;
-        padding: 4em 2em;
+        padding: 0em 1em;
+        float: left;
+        line-height: 1.5em;
+        transform: scale(1);
         &[disabled]{
             cursor: auto;
             color: #999;
             background: #e0e0e0;
         }
+        &:hover{
+            transform: scale(1.05);
+        }
     }
+}
+
+.closeBlockSelection{
+    position: absolute;
+    top: .2em;
+    font-weight: bold;
+    right: .2em;
+    background: #fff !important;
+    border: 1px solid #333 !important;
+    color: #333;
+    font-size: 1.5em !important;
+    border-radius: 2em;
+    vertical-align: middle;
+    line-height: 1em !important;
+    padding: 0 !important;
+    text-align: center;
+    width: 1.5em !important;
+    height: 1.5em !important;
 }
 
 .task{
@@ -108,6 +141,7 @@ body{
     }
     background: #fff;
     display: block;
+    border: 1px solid #ccc;
     width: 100%;
     padding: 1em;
     margin-bottom: 1em;
@@ -118,4 +152,7 @@ body{
 //        height: 50px;
 //        background: #ccc;
 //    }
+    h3{
+        margin: .15em .15em .6em .15em;
+    }
 }

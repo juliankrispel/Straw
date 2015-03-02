@@ -35,13 +35,14 @@ var SelectBlock = React.createClass({
                     {type.name}
                 </button>;
             })}
+            <button className="closeBlockSelection" onClick={this.toggle}>&times;</button>
             </div>;
     },
     render: function(){
         if(this.state.active){
             return this.renderBlockOptions();
         }else{
-            return <button onClick={this.toggle.bind(this)} className="btn-large">+</button>;
+            return <button onClick={this.toggle} className="btn-large">+</button>;
         }
     }
 });
