@@ -6,7 +6,7 @@ var Task = require('./task');
 var mapStringifiedBlock = function(block){
     for(var i = 0; i < blockTypes.length; i++){
         if(block.ref === blockTypes[i].ref){
-            block = _.extend(blockTypes[i], block);
+            block = _.extend(_.cloneDeep(blockTypes[i]), block);
             break ;
         }
     }
@@ -14,7 +14,6 @@ var mapStringifiedBlock = function(block){
 };
 
 var Tasks = React.createClass({
-
     getInitialState: function(){
         var state = JSON.parse(window.localStorage.getItem('plumber'));
         if(state && state.tasks && state.tasks[0].blocks){
@@ -46,17 +45,13 @@ var Tasks = React.createClass({
 
     render: function(){
         var _this = this;
-        return <div>
-            <div className="left">
+        return <div className="nowrap">
             {this.state.tasks.map(function(taskData, i){
                     return <Task 
                         onTaskChanged={_this.handleTaskChanged.bind(_this, i)}
                         data={taskData}></Task>
-                })}
-            </div>
-            <div className="left">
-                <button onClick={this.addTask.bind(this)} className="btn-large">+</button>
-            </div>
+            })}
+            <button onClick={this.addTask.bind(this)} className="btn-large add-task">+</button>
         </div>;
     }
 

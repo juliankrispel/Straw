@@ -59,6 +59,9 @@ module.exports = {
         var streamArguments = firstBlock.getConfigArguments();
 
         var srcStream = streamFunction.apply(this, streamArguments);
+        blocks.forEach(function(i){
+            console.log(i);
+        });
         return new BlockStream(buildTaskRecursively(srcStream, blocks), srcStream);
     }
 };
