@@ -1,4 +1,4 @@
-# Plumber
+# Straw
 ## A GUI for gulp
 I've only just started this, so there's many holes yet. Use with caution.
 
